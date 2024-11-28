@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Таблица Пифагора</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    td {
+      padding: 5px;
+      text-align: center;
+      border: 1px solid #ccc;
+    }
+    tr:nth-child(1) td {
+      border-bottom: 1.5px solid rgb(188, 9, 237);
+    }
+    td:nth-child(1) {
+      border-right: 1.5px solid rgb(188, 9, 237);
+    }
+    .diagonal {
+      background-color: #ff99db;
+    }
+    .input-container {
+      margin-bottom: 20px;
+    }
+    .input-container input[type="number"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+    }
+    .input-container button[type="button"] {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: #fff;
+      cursor: pointer;
+    }
+    .input-container button[type="button"]:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Таблица Пифагора</h1>
+  <div class="input-container">
+    <input id="nInput" type="number" placeholder="Размер таблицы">
+    <button id="generateButton">Сгенерировать таблицу</button>
+  </div>
+  <table id="multiplicationTable"></table>
+
+  <script>
+    const nInput = document.getElementById('nInput');
+    const generateButton = document.getElementById('generateButton');
+    const table = document.getElementById('multiplicationTable');
+
+    generateButton.addEventListener('click', () => {
+      const n = parseInt(nInput.value);
+      if (n > 0) {
+        generateMultiplicationTable(n);
+      } else {
+        alert('Введите положительное число');
+      }
+    });
+
+    function generateMultiplicationTable(n) {
+      let output = "";
+
+      output += "<tr><td></td>";
+      for (let j = 1; j <= n; j++) {
+        output += "<td>" + j + "</td>";
+      }
+      output += "</tr>";
+
+      for (let i = 1; i <= n; i++) {
+        output += "<tr>";
+        output += "<td>" + i + "</td>"; 
+        for (let j = 1; j <= n; j++) {
+          if (i == j) {
+            output += "<td class='diagonal'>" + i * j + "</td>";
+          } else {
+            output += "<td>" + i * j + "</td>";
+          }
+        }
+        output += "</tr>";
+      }
+
+      table.innerHTML = output;
+    }
+  </script>
+</body>
+</html>

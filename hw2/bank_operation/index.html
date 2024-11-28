@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="bank.css">
+    <meta charset="UTF-8">
+    <title>Банковский счет</title>  
+</head>
+
+<body>
+  <header>
+    <h1>Банковский счет</h1>
+  </header>
+  <div class="container">
+    <div id="balance">
+      <p>Баланс:</p>
+      <span id="balanceValue">500</span>
+    </div>
+    <input id="amount" type="number" placeholder="Введите сумму"><br>
+    <select id="choice">
+      <option value="внести">Внести</option>
+      <option value="снять">Снять</option>
+    </select><br>
+    <button id="executeButton">Выполнить</button>
+  </div>
+
+  <script>
+    const balanceDiv = document.getElementById("balanceValue");
+    const amountInput = document.getElementById("amount");
+    const choiceSelect = document.getElementById("choice");
+    const executeButton = document.getElementById("executeButton");
+
+    let bankAccount = {
+      balance: 500,
+
+      deposit: function(amount) {
+          this.balance += amount;
+          balanceDiv.textContent = this.balance;
+      },
+
+      withdraw: function(amount) {
+          if (amount <= this.balance){
+              this.balance -= amount;
+              balanceDiv.textContent = this.balance;
+          } else {
+              alert("Недостаточно средств на счете.");
+          }
+      },
+    };
+
+    executeButton.addEventListener("click", () => {
+      const amount = Number(amountInput.value);
+      const choice = choiceSelect.value;
+
+      if (choice === "внести") {
+          bankAccount.deposit(amount);
+      } else if (choice === "снять") {
+          bankAccount.withdraw(amount);
+      }
+    });
+  </script>
+</body>
+</html>

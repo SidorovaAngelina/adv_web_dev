@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="param.css">
+    <meta charset="UTF-8">
+    <title>Возведение в степень</title>  
+</head>
+
+<body>
+  <header>
+    <h1>Возведение в степень</h1>
+  </header>
+  <div class="container">
+        <div id="description">
+          <p>Данный калькулятор возводит число Y - 2 в степень Y.</p>
+        </div>
+    <input id="Y" type="number" placeholder="Введите число Y"><br>
+    <button id="calculateButton">Вычислить</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const YInput = document.getElementById("Y");
+    const calculateButton = document.getElementById("calculateButton");
+    const resultDiv = document.getElementById("result");
+
+    calculateButton.addEventListener("click", () => {
+      const Y = Number(YInput.value);
+
+      const calculator = {
+        base: Y - 2,
+        power: function(y) {
+          return Math.pow(this.base, y);
+        }
+      };
+
+      const result = calculator.power(Y);
+      resultDiv.innerHTML = `
+        <p>Результат:</p>
+        <span>${result}</span>
+      `;
+    });
+  </script>
+</body>
+</html>

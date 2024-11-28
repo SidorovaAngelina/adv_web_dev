@@ -1,0 +1,30 @@
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+}
+
+.container {
+    width: 50%;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(146, 13, 187, 0.712);
+}
+
+input[type="number"] {
+    width: 70%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+}
+      
+#result {
+    font-size: 24px;
+    font-weight: bold;
+    color: #c50a90;
+    margin-top: 20px;
+}

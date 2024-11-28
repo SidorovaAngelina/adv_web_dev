@@ -1,0 +1,61 @@
+body{
+    background: url('passport_temp.jpg');
+    background-repeat: no-repeat;
+    background-size: auto 575px;
+    background-position: 50% -1%;
+}
+#issue{
+    position: absolute;
+    top: 51px;
+    left: 525px;
+}
+#date_issue{
+    position: absolute;
+    top: 125px;
+    left: 505px;
+}
+#dep_code{
+    position: absolute;
+    top: 125px;
+    left: 715px;
+}
+#surname{
+    position: absolute;
+    top: 345px;
+    left: 650px;
+}
+#name{
+    position: absolute;
+    top: 393px;
+    left: 650px;
+}
+#patronymic{
+    position: absolute;
+    top: 418px;
+    left: 630px;
+}
+#gender{
+    position: absolute;
+    top: 443px;
+    left: 590px;
+}
+#birthdate{
+    position: absolute;
+    top: 443px;
+    left: 690px;
+}
+#birth_place{
+    position: absolute;
+    top: 468px;
+    left: 645px;
+}
+#issue, #surname, #name, #patronymic, #gender, #birthdate, #birth_place {
+    text-transform: uppercase;
+  }
+
+#switchLang{
+    position: absolute;
+    top: 560px;
+    left: 650px;
+    background:#ff004c;
+}

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ДЗ 3</title>
+</head>
+<body>
+<!-- Exercise 1 -->
+  <h1>Палиндром</h1>
+  <p>Введите строку и узнайте - является ли она палиндромом.</p>
+  <input type="text" id="inputWord" placeholder="Введите строку">
+  <button onclick="checkPalindrome()">Проверить</button>
+  <p id="resultex1"></p>
+
+  <script>
+    function checkPalindrome() {
+        let inputWord= document.getElementById("inputWord").value;
+        let reverseWord = inputWord.split("").reverse().join("");
+        let result = document.getElementById("resultex1");
+      if (inputWord === reverseWord) {
+        result.textContent = "Является палиндромом.";
+      } else {
+        result.textContent = "Не является палиндромом.";
+      }
+    }
+  </script>
+
+<!-- Exercise 2 -->
+<h1> Угадай число </h1>
+<text> Будет загадано число в интервале: </text>  
+<input type="number" placeholder="Введите минимальную границу интервала" min=1 max="99" id="lowerBound">
+<input type="number" placeholder="Введите максимальную границу интервала" min=2 max="100" id="upperBound">
+<text> Запустите игру и попытайтесь угадать какое число загадано.</text> 
+<button onclick="initGame()">Начать игру</button>
+<br>
+<text id="message"></text>
+<input type="number" placeholder="Введите число" min=1 max=100 id="guessInput" style="display:none">
+<button onclick="submitGuess()" id="guessButton" style="display:none"> Отправить</button> 
+<p id="attemptsDisplay"></p>
+
+<script>
+  let secretNumber;
+  let remainingAttempts;
+  let isGuessed = false; 
+  let lowerBound;
+  let upperBound;
+
+  function initGame() {
+    let attemptsOutput = document.getElementById("attemptsDisplay");
+    remainingAttempts = 5;
+    attemptsOutput.textContent = "Попытки: " + remainingAttempts;
+    lowerBound = +document.getElementById('lowerBound').value;
+    upperBound = +document.getElementById('upperBound').value;
+
+    if (lowerBound < upperBound) {
+      secretNumber = Math.floor(Math.random() * (upperBound - lowerBound + 1)) + lowerBound;
+      console.log(secretNumber);
+      document.getElementById('message').innerText = "Угадайте какое число загадано.";
+      isGuessed = false;
+      document.getElementById('guessInput').style.display = "block";
+      document.getElementById('guessButton').style.display = "block";
+    } else {
+      document.getElementById('message').innerText = `Недопустимый интервал`;
+    }
+  }
+
+  function submitGuess() {
+    let attemptsOutput = document.getElementById("attemptsDisplay");
+    let userGuess = +document.getElementById('guessInput').value;
+
+    if (userGuess >= lowerBound && userGuess <= upperBound) {
+      if (remainingAttempts === 0) {
+        hideInputs("Попытки закончились! Вы можете ввести новый интервал и попытать удачу снова");
+      } else {
+        if (!isGuessed) {
+          remainingAttempts -= 1;
+          if (secretNumber === userGuess) {
+            alert("Вы угадали число. Можете задать новый диапазон.");
+            resetGame();
+          } else {
+            if (userGuess < secretNumber) {
+              alert("Подсказка: Загаданное число больше " + userGuess);
+            } else {
+              alert("Подсказка: Загаданное число меньше " + userGuess);
+            }
+
+            if (remainingAttempts === 0) {
+              hideInputs("Попытки закончились! Загаданное число было: " + secretNumber);
+            } else {
+              attemptsOutput.textContent = "Попытки: " + remainingAttempts;
+            }
+          }
+        } else {
+          hideInputs("Вы угадали число. Можете задать новый диапазон");
+        }
+      }
+    } else {
+      alert(`Введенное число не в заданном интервале. Введите новое число.`);
+    }
+  }
+
+  function hideInputs(message) {
+    document.getElementById('guessButton').style.display = "none";
+    document.getElementById('guessInput').style.display = "none";
+    document.getElementById('message').innerText = "";
+    alert(message);
+    resetGame();
+  }
+
+  function resetGame() {
+    secretNumber = null;
+    remainingAttempts = 3;
+    isGuessed = false;
+    document.getElementById('guessInput').value = "";
+    document.getElementById('attemptsDisplay').textContent = "Попытки: " + remainingAttempts;
+    document.getElementById('message').innerText = "Введите новый диапазон и начните игру снова.";
+    document.getElementById('guessInput').style.display = "none";
+    document.getElementById('guessButton').style.display = "none";
+  }
+</script>
+
+<!-- Exercise 3 -->
+<h1>Средние баллы</h1>
+
+<label for="studentNames">Введите имена учеников через запятую и пробел: </label>
+<input type="text" id="studentNames"><br><br>
+
+<label for="studentGrades">Введите соответствующие оценки за последние три экзамена в формате '<оценка 1>-<оценка 2>-<оценка 3>': </label>
+<input type="text" id="studentGrades"><br><br>
+
+<button onclick="calculateAverageGrades()">Рассчитать</button>
+<p id="resultex3"></p>
+
+<script>
+  function calculateAverageGrades() {
+    let studentNamesInput = document.getElementById("studentNames").value;
+    let studentGradesInput = document.getElementById("studentGrades").value;
+
+    let studentNames = studentNamesInput.split(", ").map(name => name.trim());
+    let studentGrades = studentGradesInput.split(" ").map(grade => grade.trim());
+
+    let averageScores = {};
+    for (let i = 0; i < studentNames.length; i++) {
+      let gradeComponents = studentGrades[i].split("-");
+      let totalScore = parseInt(gradeComponents[0]) + parseInt(gradeComponents[1]) + parseInt(gradeComponents[2]);
+      averageScores[studentNames[i]] = totalScore / 3;
+    }
+
+    let lowestAverageStudent = Object.keys(averageScores).reduce((a, b) => averageScores[a] < averageScores[b] ? a : b);
+    document.getElementById("resultex3").textContent = "Имя ученика с самым низким средним баллом: " + lowestAverageStudent;
+  }
+</script>
+
+<!-- Exercise 4 -->
+<h1>Определение низкокалорийного продукта</h1>
+    <textarea id="productNames" rows="2" cols="50" placeholder="Введите названия продуктов через пробел"></textarea><br><br>
+    <textarea id="productInfo" rows="2" cols="50" placeholder="Введите информацию о белках, жирах и углеводах через пробел (белки-жиры-углеводы)"></textarea><br><br>
+    <button onclick="findLowestCalorieProduct()">Определить</button>
+
+    <p id="resultex4"></p>
+
+    <script>
+        function findLowestCalorieProduct() {
+            const productNames = document.getElementById("productNames").value.trim().split(" ");
+            const productInfo = document.getElementById("productInfo").value.trim().split(" ");
+            
+            let lowestCalorieProduct = "";
+            let lowestCalories = Infinity;
+
+            for (let i = 0; i < productNames.length; i++) {
+                const [proteins, fats, carbohydrates] = productInfo[i].split("-").map(Number);
+                
+                // Проверяем, что данные корректны
+                if (isNaN(proteins) || isNaN(fats) || isNaN(carbohydrates)) {
+                    alert("Пожалуйста, убедитесь, что информация о белках, жирах и углеводах введена правильно.");
+                    return;
+                }
+
+                const calories = 4 * proteins + 9 * fats + 4 * carbohydrates;
+
+                if (calories < lowestCalories) {
+                    lowestCalories = calories;
+                    lowestCalorieProduct = productNames[i];
+                }
+            }
+
+            document.getElementById("resultex4").textContent = `Самый низкокалорийный продукт: ${lowestCalorieProduct}`;
+        }
+    </script>
+
+<!-- Exercise 5 -->
+<h1>Анализ цен на продукты</h1>
+
+<label for="products">Информация о товарах (через "; " в формате "товар: цена1, цена2, цена3"):</label>
+<input type="text" id="products"><br><br>
+
+<button onclick="analyzePrices()">Анализировать</button>
+<ul id="resultex5"></ul>
+
+<script>
+    function analyzePrices() {
+        let productsInput = document.getElementById("products").value;
+
+        let productAveragePrices = {};
+        for (let productData of productsInput.split("; ")) {
+            let parts = productData.split(": ");
+            let productName = parts[0];
+            let prices = parts[1].split(",").map(Number); 
+            let averagePrice = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+            productAveragePrices[productName] = averagePrice;
+        }
+
+        let sortedProducts = Object.entries(productAveragePrices).sort((a, b) => {
+            if (a[1] === b[1]) {
+                return a[0].localeCompare(b[0]); 
+            } else {
+                return a[1] - b[1]; 
+            }
+        });
+
+        let resultElement = document.getElementById("resultex5");
+        resultElement.innerHTML = "";
+        sortedProducts.forEach(product => {
+            let li = document.createElement("li");
+            li.textContent = product[0];
+            resultElement.appendChild(li);
+        });
+    }
+</script>
+
+  <!-- Exercise 6 -->
+  <h1>Анализ прибыли по товарам</h1>
+
+  <textarea id="salesData" rows="8" cols="50" placeholder="Введите данные о продажах (по одной строке):
+Товар1,100
+Товар2,50
+...
+END"></textarea><br><br>
+
+<button onclick="analyzeSales()">Анализировать</button>
+<p id="resultProfit"></p>
+
+<script>
+  function analyzeSales() {
+    let salesData = document.getElementById("salesData").value.trim().split("\n");
+
+    let productProfits = {};
+    let mostProfitableProduct = "";
+    let maxProfit = 0;
+
+    for (let i = 0; i < salesData.length; i++) {
+      if (salesData[i] === "END") {
+        break;
+      }
+      let [productName, profitStr] = salesData[i].split(",");
+      let profit = parseInt(profitStr);
+
+      if (productName in productProfits) {
+        productProfits[productName] += profit;
+      } else {
+        productProfits[productName] = profit;
+      }
+
+      if (productProfits[productName] > maxProfit) {
+        mostProfitableProduct = productName;
+        maxProfit = productProfits[productName];
+      }
+    }
+
+    document.getElementById("resultProfit").textContent = mostProfitableProduct + " " + maxProfit;
+  }
+</script>
+
+<!-- Exercise 7 -->
+<h1>Анализ концертов</h1>
+<textarea id="concertData" rows="8" cols="50" placeholder="Введите данные о концертах (по одной строке):
+Группа1, 01.07.2023
+Группа2, 15.08.2023
+...
+END"></textarea><br><br>
+<button onclick="analyzeConcerts()">Анализировать</button>
+<p id="resultex7"></p>
+
+<script>
+    function analyzeConcerts() {
+        let concertData = document.getElementById("concertData").value.trim().split("\n");
+        let groupConcerts = {};
+        let mostConcertsGroup = "";
+        let maxConcerts = 0;
+
+        for (let i = 0; i < concertData.length; i++) {
+            if (concertData[i].trim() === "END") {
+                break;
+            }
+            let [groupName, concertDate] = concertData[i].split(", ");
+            let year = parseInt(concertDate.split(".").pop());
+
+            if (year === 2023) {
+                if (groupName in groupConcerts) {
+                    groupConcerts[groupName]++;
+                } else {
+                    groupConcerts[groupName] = 1;
+                }
+
+                if (groupConcerts[groupName] > maxConcerts) {
+                    mostConcertsGroup = groupName;
+                    maxConcerts = groupConcerts[groupName];
+                }
+            }
+        }
+
+        document.getElementById("resultex7").textContent = mostConcertsGroup + " " + maxConcerts;
+    }
+</script>
+</body>
+</html>

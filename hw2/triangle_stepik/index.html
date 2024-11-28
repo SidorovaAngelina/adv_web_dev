@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="triangle.css">
+    <meta charset="UTF-8">
+    <title>Проверка на существование</title>
+</head>
+
+<body>
+  <header>
+    <h1>Проверка на существование треугольника</h1>
+  </header>
+  <div class="container">
+    <input id="sideFst" type="number" placeholder="Введите первую сторону"><br>
+    <input id="sideSnd" type="number" placeholder="Введите вторую сторону"><br>
+    <input id="sideThrd" type="number" placeholder="Введите третью сторону"><br>
+    <button id="checkButton">Проверить треугольник</button>
+  </div>
+
+  <script>
+    const sideFstInput = document.getElementById("sideFst");
+    const sideSndInput = document.getElementById("sideSnd");
+    const sideThrdInput = document.getElementById("sideThrd");
+    const checkButton = document.getElementById("checkButton");
+
+    checkButton.addEventListener("click", () => {
+      const f = Number(sideFstInput.value);
+      const s = Number(sideSndInput.value);
+      const t = Number(sideThrdInput.value);
+
+      function checkTriangleExistence(f, s, t) {
+        if (f + s <= t || s + t <= f || t + f <= s) {
+          return "Треугольник не существует";
+        } else {
+          return "Треугольник существует";
+        }
+      }
+
+      const result = checkTriangleExistence(f, s, t);
+      alert(result);
+    });
+  </script>
+</body>
+</html>
