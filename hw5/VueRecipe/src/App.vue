@@ -40,7 +40,7 @@ export default {
     const searchQuery = ref('');
 
     const fetchRecipes = async () => {
-      const apiKey = '77bdfe2494fe4d928cdea68c770398ed';
+      const apiKey = `c6684ff5df77488587c818d5b5d0c07a`;
       const apiUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeInformation=true&cuisine=Italian`;
       try {
         const response = await fetch(apiUrl);
@@ -55,14 +55,12 @@ export default {
     const filteredRecipes = computed(() => {
       let filtered = recipes.value;
 
-      // Фильтрация по запросу поиска (по первым буквам)
       if (searchQuery.value) {
         filtered = filtered.filter(recipe =>
           recipe.title.toLowerCase().startsWith(searchQuery.value.toLowerCase())
         );
       }
 
-      // Сортировка по выбранному полю
       if (sortField.value) {
         filtered = [...filtered].sort((a, b) => a[sortField.value] - b[sortField.value]);
       }

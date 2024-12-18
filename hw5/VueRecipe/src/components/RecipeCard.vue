@@ -15,6 +15,7 @@
   };
   </script>
   
+  
   <style scoped>
   .recipe-card {
     background: rgba(255, 255, 255, 0.689);

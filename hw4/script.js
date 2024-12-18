@@ -1,4 +1,4 @@
-const apiKey = '77bdfe2494fe4d928cdea68c770398ed';
+const apiKey = `c6684ff5df77488587c818d5b5d0c07a`;
 const apiUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeInformation=true&cuisine=Italian`; 
 
 let recipes = [];
@@ -10,7 +10,7 @@ async function fetchRecipes() {
             throw new Error('Сеть ответила с ошибкой: ' + response.status);
         }
         const data = await response.json();
-        recipes = data.results.slice(0, 9);
+        recipes = data.results.slice(0,9);
         displayRecipes(recipes);
     } catch (error) {
         console.error('Ошибка при получении данных:', error);
@@ -49,9 +49,20 @@ function sortRecipes(field) {
     }
 }
 
+function filterRecipes(searchTerm) {
+    if (!searchTerm) return recipes;
+    return recipes.filter(recipe => recipe.title.toLowerCase().includes(searchTerm.toLowerCase()));
+}
+
 document.getElementById('sort-select').addEventListener('change', (event) => {
     const sortedRecipes = sortRecipes(event.target.value);
     displayRecipes(sortedRecipes);
+});
+
+document.getElementById('search-input').addEventListener('input', () => {
+    const searchTerm = document.getElementById('search-input').value;
+    const filteredRecipes = filterRecipes(searchTerm);
+    displayRecipes(filteredRecipes);
 });
 
 fetchRecipes();
